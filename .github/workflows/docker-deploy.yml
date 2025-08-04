@@ -23,13 +23,12 @@ jobs:
     - name: Upload .env file to EC2
       run: |
         echo "${{ secrets.ENV_CONTENT }}" > .env
-        scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa .env ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/deploy_test/dockerproject/.env
-
+        scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa .env ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/deploy_test/docker_project2/.env
 
     - name: Deploy to EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-        cd ~/deploy_test/dockerproject
+        ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+        cd ~/deploy_test/docker_project2
         git pull origin main
         docker build -t django-docker-app .
         docker stop django-app || true
