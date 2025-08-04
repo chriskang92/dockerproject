@@ -22,18 +22,18 @@ jobs:
           chmod 600 $HOME/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> $HOME/.ssh/known_hosts
 
-      - name: Decode and Upload .env to EC2
-        run: |
-          echo "${{ secrets.EC2_CONTENT_B64 }}" | base64 -d > .env
-          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no .env ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/deploy_test/dockerproject/.env
+          - name: Decode and Upload .env to EC2
+            run: |
+              echo "${{ secrets.EC2_CONTENT_B64 }}" | base64 -d > .env
+              scp -i /home/runner/.ssh/id_rsa -o StrictHostKeyChecking=no .env ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/deploy_test/dockerproject/.env
 
-      - name: Deploy to EC2
-        run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'ENDSSH'
-            cd ~/deploy_test/dockerproject
-            git pull origin main
-            docker build -t django-docker-app .
-            docker stop django-app || true
-            docker rm django-app || true
-            docker run -d -p 8000:8000 --env-file .env --name django-app django-docker-app
-          ENDSSH
+          - name: Deploy to EC2
+            run: |
+              ssh -i /home/runner/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'ENDSSH'
+                cd ~/deploy_test/dockerproject
+                git pull origin main
+                docker build -t django-docker-app .
+                docker stop django-app || true
+                docker rm django-app || true
+                docker run -d -p 8000:8000 --env-file .env --name django-app django-docker-app
+              ENDSSH
