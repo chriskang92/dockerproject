@@ -30,10 +30,10 @@ DEBUG = True
 
 # ALLOWED_HOSTS = []
 
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")  # env 값을 호출
 DEBUG = os.getenv("DJANGO_DEBUG") == "True"
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
-# ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
