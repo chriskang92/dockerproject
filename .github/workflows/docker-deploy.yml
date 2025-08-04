@@ -9,7 +9,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -25,6 +24,7 @@ jobs:
       run: |
         echo "${{ secrets.ENV_CONTENT }}" > .env
         scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa .env ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/deploy_test/dockerproject/.env
+
 
     - name: Deploy to EC2
       run: |
