@@ -33,8 +33,7 @@ DEBUG = True
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")  # env 값을 호출
 DEBUG = os.getenv("DJANGO_DEBUG") == "True"
 # ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
-ALLOWED_HOSTS = ["*"]
-
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
 # Application definition
 
 INSTALLED_APPS = [
